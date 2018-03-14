@@ -444,7 +444,7 @@ void DC_calib::CreateHistoNames()
 
 		 fitted_card_hist[ip][card].SetName(fitted_card_hist_name);
 		 fitted_card_hist[ip][card].SetTitle(fitted_card_hist_title);
-		 fitted_card_hist[ip][card].SetBins(NBINS, MINBIN, MAXBIN);
+		 fitted_card_hist[ip][card].SetBins(200, MINBIN, MAXBIN);
 		 fitted_card_hist[ip][card].SetXTitle("Drift Time (ns)");
 		 fitted_card_hist[ip][card].SetYTitle("Number of Entries / 1 ns");
 	       
