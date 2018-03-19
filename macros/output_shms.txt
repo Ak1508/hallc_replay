@@ -1,0 +1,8 @@
+Run #:  2508
+BCM4a Charge:  132244.268 uC		  
+Pre-Scaled Ps1 SHMS Computer Live Time :  -27.7410 %
+Pre-Scaled Ps2 SHMS Computer Live Time :  90.2965 %
+Pre-Scaled Ps3 SHMS Computer Live Time :  -90.4532 %
+SING FID TRACK EFFIC           :    0.9438 +-   0.0003
+E SING FID TRACK EFFIC         :    0.9706 +-   0.0003
+3_of_4 EFF :  0.999026
