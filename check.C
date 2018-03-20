@@ -1,4 +1,4 @@
-//reading the leaf from root file H.dc.1u1.dist
+//reading the leaf from root file  like P.dc.1u1.dist
 
 #define NPLANES 12
 #define NBINS 100
@@ -9,19 +9,21 @@
 void check()
   
 {
-
+  gROOT->SetBatch(1);
   // Long64_t num_evts;       
   
-  TString file_name = "ROOTfiles/hms_replay_production_all_1267_1000000.root";
+  TString file_name = "ROOTfiles/shms_replay_production_all_1791_1000000.root";
   
   //open file
   TFile *f = new TFile(file_name, "READ");
+  
+  TFile * output =  new TFile ("output_1791_driftdist_slope.root","RECREATE");
   
   f->cd();
 
   //Get the tree
   TTree *tree = (TTree*)f->Get("T");
-  TString SPECTROMETER="H";
+  TString SPECTROMETER="P";
   TString DETECTOR="dc";
   TString plane_names[NPLANES]={"1u1", "1u2", "1x1", "1x2", "1v1", "1v2", "2v2", "2v1", "2x2", "2x1", "2u2", "2u1"};
   
@@ -29,8 +31,8 @@ void check()
   Int_t Ndata[NPLANES];
   Double_t pdc_time[NPLANES][1000];
   Double_t pdc_dist[NPLANES][1000];
-  Double_t cer_npeSum;
-  
+  Double_t cer_npeSum, cal;
+  Double_t Ndata_hit[NPLANES];
   //Declare Histogram array to store AVG drift times per plane
   TH1F* h[NPLANES];
   TCanvas *c[NPLANES];
@@ -42,15 +44,15 @@ void check()
       TString ndata_name = "Ndata."+base_name+".time";
       TString drift_time = base_name+".time";
       TString drift_dist = base_name+".dist";
-      
+      TString ndata_hit = base_name + ".nhit";
       // cout << drift_dist<<endl;
       // Int_t           Ndata_H_dc_1x1_dist;
       // Double_t        H_dc_1x1_dist[65];
       
       TString drift_time_histo = "pdc"+plane_names[ip]+"_time"; 
-      TString title = "H_"+plane_names[ip]+"_driftdist";
+      TString title = "P_"+plane_names[ip]+"_driftdist";
       TString distplane = drift_dist;
-      
+     
       //  cout <<" distplane :"<<distplane<< endl;
       
       
@@ -58,8 +60,7 @@ void check()
       tree->SetBranchAddress(drift_time, pdc_time[ip]);
       tree->SetBranchAddress(drift_dist, pdc_dist[ip]); 
       tree->SetBranchAddress(ndata_name, &Ndata[ip]);
-      tree->SetBranchAddress("H.cer.npeSum",&cer_npeSum);
-
+      tree->SetBranchAddress(ndata_hit, &Ndata_hit[ip]);
       
       
       //Create Histograms
@@ -72,6 +73,8 @@ void check()
       
     }  
   
+  tree->SetBranchAddress("P.ngcer.npeSum",&cer_npeSum);
+  tree->SetBranchAddress("P.cal.etot", &cal);
   
   Long64_t nentries = tree->GetEntries();
  
@@ -85,7 +88,7 @@ void check()
 	  
 	  for(Int_t j=0; j<Ndata[ip]; j++)
 	    {
-	      if (cer_npeSum>1.0 && pdc_time[ip][j]<190.0)
+	      if (cer_npeSum>1.0 && pdc_time[ip][j]<190.0 && Ndata_hit[ip] ==1.0 && cal>0.1)
 		{
 		  h[ip]->Fill(pdc_dist[ip][j]);
 		}
@@ -124,6 +127,10 @@ void check()
   TLine *tl = new TLine(0,0,gr->GetXaxis()->GetXmax(),0); 
   tl->Draw();
   tl->SetLineColor(2);
-  c1->SaveAs("1267_slope.pdf");
+  // c1->SaveAs("1791_slope.pdf");
+  c1->Update();
+
+  output->Write();
+  c1->Write("Drift_dis_planeVsSlope");
 }//end of void 
 
