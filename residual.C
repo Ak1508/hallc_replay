@@ -4,7 +4,7 @@ void residual()
   gROOT->SetBatch(1);
   
   
-  TFile *f =  new TFile("ROOTfiles/hms_replay_production_all_1267_1000000.root");
+  TFile *f =  new TFile("ROOTfiles/hms_replay_production_all_1268_1000000.root");
   TTree *t = (TTree*)f->Get("T");
   
   TFile *output = new TFile("output.root", "RECREATE");
@@ -53,7 +53,7 @@ void residual()
       // cout << "sigma :" <<   fitSigma[ip]<<endl;  
       
 	      //output->Close();
-      cout <<  fitErrSigma[ip]<<endl;
+      // cout <<  fitErrSigma[ip]<<endl;
 	      
     }
 
@@ -61,11 +61,18 @@ void residual()
   TGraphErrors * graph = new TGraphErrors(12, planes, fitSigma, 0, fitErrSigma);
   graph->SetMarkerStyle(24);
   graph->SetMarkerColor(2);
+  graph->GetXaxis()->SetTitle("Plane");
+  graph->GetYaxis()->SetTitle("Sigma");
   
   // graph->GetXaxis()->SetRangeUser(0,13);
   graph->Draw("AP");
+
+  TLine *tl = new TLine(0,0.025,graph->GetXaxis()->GetXmax(),0.025); 
+  tl->Draw();
+  tl->SetLineColor(4);
   c1->Update();
   
   output->Write();
-  c1->Write("sigmaVsplanes");
+  c1->Write("sigmaVsplane");
+  c1->SaveAs("1268_residuals.pdf");
 }
