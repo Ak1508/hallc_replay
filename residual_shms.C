@@ -14,7 +14,8 @@ void residual_shms(Int_t runNo)
 
   TH1F * res[NPLANES];
 
-  string plane[NPLANES] = {"1u1", "1u2", "1x1", "1x2", "1v2", "1v1", "2v1", "2v2", "2x2", "2x1", "2u2", "2u1"};
+  string plane[12] = {"1u1", "1u2", "1x1", "1x2", "1v1", "1v2", "2v2", "2v1", "2x2", "2x1", "2u2", "2u1"};
+
  
   double mean[NPLANES];
   double sigma[NPLANES];

@@ -11,7 +11,7 @@ void slope_hms(string spectro, string spec, Int_t runNo)
   
   TTree *t = (TTree*)f->Get("T");
   
-  TFile *output = new TFile(Form("output_%d_Slope.root",runNo), "RECREATE");
+  TFile *output = new TFile(Form("output_%d_Defoc_Slope.root",runNo), "RECREATE");
   
   TH1F * drift_dist[12];
   
