@@ -1,14 +1,14 @@
 // slope for SHMS
-void slope_shms()
+void slope_shms(Int_t runNo)
 {
 
   gROOT->SetBatch(1);
  
   
-  TFile *f =  new TFile("ROOTfiles/shms_replay_production_all_1791_1000000.root");
+  TFile *f =  new TFile(Form("ROOTfiles/shms_replay_production_all_%d_-1.root", runNo));
   TTree *t = (TTree*)f->Get("T");
   
-  TFile *output = new TFile("output_1791_Slope.root", "RECREATE");
+  TFile *output = new TFile(Form("output_%d_Slope.root", runNo), "RECREATE");
 
   TH1F * drift_dist[12];
 
@@ -28,9 +28,9 @@ void slope_shms()
   TCut time_nhit;
   TCut nhit;
 
-  TCut cer = "P.ngcer.npeSum>1.0";
-  TCut cal = "P.cal.etot>0.1";
-  TCut pid = cal && cer ;
+  // TCut cer = "P.ngcer.npeSum>1.0";
+  // TCut cal = "P.cal.etot>0.1";
+  //TCut pid = cal && cer ;
 
 
 
@@ -40,7 +40,7 @@ void slope_shms()
  
       drift_dist[ip] = new TH1F(Form("drift_dist_%s", plane[ip].c_str()),  "", 100, -0.01, 0.6 );
 
-      t->Draw(Form("P.dc.%s.dist>>drift_dist_%s", plane[ip].c_str(), plane[ip].c_str()), pid && time_nhit);
+      t->Draw(Form("P.dc.%s.dist>>drift_dist_%s", plane[ip].c_str(), plane[ip].c_str()), time_nhit);
       // mean[ip] = res[ip]->GetMean();
       // sigma[ip] = res[ip]->GetStdDev();
       

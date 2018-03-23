@@ -1,16 +1,16 @@
 // looking at the residuals for the HMS 
 #define NPLANES 12
-void residual_hms()
+Double_t residual_hms(Int_t Num)
 
 {
-
+  //Int_t Num = runNo;  
   gROOT->SetBatch(1);
- 
+  // cout << runNo<<endl;
   
-  TFile *f =  new TFile("ROOTfiles/hms_replay_production_all_1268_1000000.root");
+  TFile *f =  new TFile(Form("ROOTfiles/hms_replay_production_all_%d_-1.root", Num));
   TTree *t = (TTree*)f->Get("T");
   
-  TFile *output = new TFile("output_1268_residual.root", "RECREATE");
+  TFile *output = new TFile(Form("output_%d_residual.root",Num), "RECREATE");
 
   TH1F * res[NPLANES];
 
@@ -22,14 +22,16 @@ void residual_hms()
   double fitErrSigma[NPLANES];
   double planes[NPLANES];
 
-  TCut cer = "H.cer.npeSum>1.0";
+  // TCut cer = "H.cer.npeSum>1.0";
   TCut time;
+  TCut nhit; 
 
   for (int ip = 0; ip<NPLANES; ip++)
     {
+      nhit = Form("H.dc.%s.nhit == 1", plane[ip].c_str());
       time = Form("H.dc.%s.time>0.0 && H.dc.%s.time<190.0", plane[ip].c_str(), plane[ip].c_str());
       res[ip] = new TH1F(Form("res_%s", plane[ip].c_str()),  "", 100, -0.2, 0.2 );
-      t->Draw(Form("H.dc.residual[%d]>>res_%s", ip, plane[ip].c_str()),time && cer);
+      t->Draw(Form("H.dc.residual[%d]>>res_%s", ip, plane[ip].c_str()),time && nhit);
       mean[ip] = res[ip]->GetMean();
       sigma[ip] = res[ip]->GetStdDev();
 
@@ -52,7 +54,7 @@ void residual_hms()
   graph->SetMarkerStyle(24);
   graph->SetMarkerColor(2);
   graph->GetXaxis()->SetTitle("Plane");
-  graph->GetYaxis()->SetTitle("Sigma");
+  graph->GetYaxis()->SetTitle("Residal [cm]");
   
   // graph->GetXaxis()->SetRangeUser(0,13);
   graph->Draw("AP");
@@ -65,4 +67,5 @@ void residual_hms()
   output->Write();
   c1->Write("graph");
   // c1->SaveAs("1268_residuals.pdf");
+  return 0;
 }
