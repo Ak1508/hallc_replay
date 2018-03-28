@@ -32,7 +32,7 @@ void slope_shms(Int_t runNo)
   // TCut cal = "P.cal.etot>0.1";
   //TCut pid = cal && cer ;
 
-
+  //double norm = 0;
 
   for (int ip = 0; ip<12; ip++)
     {
@@ -41,8 +41,12 @@ void slope_shms(Int_t runNo)
       drift_dist[ip] = new TH1F(Form("drift_dist_%s", plane[ip].c_str()),  "", 100, -0.01, 0.6 );
 
       t->Draw(Form("P.dc.%s.dist>>drift_dist_%s", plane[ip].c_str(), plane[ip].c_str()), time_nhit);
+
+      
       // mean[ip] = res[ip]->GetMean();
       // sigma[ip] = res[ip]->GetStdDev();
+      //  norm = 1/drift_dist[ip]->GetEntries()
+      //	cout << "norm :" << norm <<endl;
       
       // TF1 * myfun = new TF1("myfun","gaus",mean[ip]-sigma[ip],mean[ip]+sigma[ip]); 
       TF1 *myfunc = new TF1 ("myfunc", "[0]+x*[1]", 0.01, 0.49);
@@ -57,17 +61,7 @@ void slope_shms(Int_t runNo)
 
 
 
-      // res[ip]->Fit("myfun","R");
-      // fitSigma[ip] = myfun->GetParameter(2);
-      // fitErrSigma[ip]= myfun->GetParError(2);
-      // planes[ip]=ip+1;
-      // cout << "Mean of plane " << plane[ip] << " = " << mean[ip] << endl;
-      // cout <<"std of plane :" << plane[ip] << " = " << sigma[ip]<<endl;
-      // cout << "sigma :" <<   fitSigma[ip]<<endl;  
-      
-      //output->Close();
-      // cout <<  fitErrSigma[ip]<<endl;
-	      
+           
     }
 
   TCanvas *c1 = new TCanvas("c1", "", 2000, 500);

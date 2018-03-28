@@ -104,6 +104,12 @@ ppcentral = 2.46568
 ptheta_lab = 9.995
 ppcentral = 2.50971
 
+1691
+gtargmass_amu=1.00794
+ppartmass = 0.00051099
+ptheta_lab = 7.5
+ppcentral = 2.177
+gpbeam = 2.221
 
 
 # start the Jan 12 commissioning

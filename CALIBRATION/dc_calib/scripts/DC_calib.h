@@ -3,7 +3,7 @@
 #define DC_CALIB_H
 
 #define NPLANES 12
-#define NBINS 400
+#define NBINS 200
 #define MINBIN -50.0
 #define MAXBIN 350.0
 #define TOTAL_BINS 189  

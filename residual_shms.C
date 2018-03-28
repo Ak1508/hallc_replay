@@ -10,7 +10,7 @@ void residual_shms(Int_t runNo)
   TFile *f =  new TFile(Form("ROOTfiles/shms_replay_production_all_%d_-1.root",runNo));
   TTree *t = (TTree*)f->Get("T");
   
-  TFile *output = new TFile(Form("output_%d_residual.root", runNo), "RECREATE");
+  TFile *output = new TFile(Form("output_%d_residual_card.root", runNo), "RECREATE");
 
   TH1F * res[NPLANES];
 
