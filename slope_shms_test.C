@@ -45,12 +45,18 @@ void slope_shms_test(Int_t runNo)
       t->Draw(Form("P.dc.%s.dist>>drift_dist_%s", plane[ip].c_str(), plane[ip].c_str()), time_nhit);
       
       norm = drift_dist[ip]->GetEntries();
-      drift_dist[ip]->Scale(1/norm);
-      t->Draw(Form("P.dc.%s.dist>>drift_dist_%s", plane[ip].c_str(), plane[ip].c_str()), time_nhit);	
       
-      // cout <<scale<<endl;
-      // cout <<"scale :" <<scale<<endl;
-      //drift_dist[ip]->Scale(scale);
+      cout << "norm: " << norm << endl;
+      cout << "scale: " << 1/norm <<endl;
+      
+      drift_dist[ip]->Scale(1/norm);
+      drift_dist[ip]->DrawCopy("HIST");
+
+      //  t->Draw(Form("P.dc.%s.dist>>drift_dist_%s", plane[ip].c_str(), plane[ip].c_str()), time_nhit);	
+      
+      //cout <<scale<<endl;
+      //cout <<"scale :" <<scale<<endl;
+       //drift_dist[ip]->Scale(scale);
       //t->Draw(Form("P.dc.%s.dist>>drift_dist_%s", plane[ip].c_str(), plane[ip].c_str()), time_nhit);
       
       // mean[ip] = res[ip]->GetMean();
