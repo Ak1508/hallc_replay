@@ -49,9 +49,9 @@ void hms_drift_dist(Int_t runNo)
       //	cout << "norm :" << norm <<endl;
       
       // TF1 * myfun = new TF1("myfun","gaus",mean[ip]-sigma[ip],mean[ip]+sigma[ip]); 
-      // TF1 *myfunc = new TF1 ("myfunc", "[0]+x*[1]", 0.01, 0.49);
+       TF1 *myfunc = new TF1 ("myfunc", "[0]+x*[1]", 0.01, 0.49);
       
-      // drift_dist[ip]->Fit("myfunc","R");
+       drift_dist[ip]->Fit("myfunc","R");
       // slope[ip] = myfunc->GetParameter(1);
       // slopeErr[ip]= myfunc->GetParError(1);
       // // h[j]->Draw();
@@ -80,7 +80,7 @@ void hms_drift_dist(Int_t runNo)
   // tl->SetLineColor(4);
   // c1->Update();
   
-  // output->Write();
+   output->Write();
   // c1->Write("slopeVsplane");
   // c1->SaveAs("1268_residuals.pdf");
 }
